@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Ruby ku pertama</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_include_tag 'application' %>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMpY1kIBn/0AA6/i4T0t5V/3E28p/Z7HghGty6" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" integrity="sha384-12g1wUN/cFzF5SH5kY7d8eAvXCTP9QlF8GHHeYHqkVggTNMLx1vJVsDi1eexkQ+4" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="<%= asset_path('ketemu ruby.png') %>" sizes="16x16"> 
+
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        a.dark-mode {
+            color: #bb86fc;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900">
+    <nav class="bg-red-500 p-4 shadow">
+        <ul class="flex justify-around">
+            <li>
+                <a href="/" class="flex items-center">
+                    <%= image_tag('ketemu ruby.png', alt: 'Logo', class: 'w-12 h-12 rounded-full') %>
+                </a>
+            </li>
+            <li>
+                <a href="<%= root_path %>" class="text-white font-bold hover:text-red-300">Ruby Home</a>
+            </li>
+            <li>
+                <a href="<%= ruby_top_build_path %>" class="text-white font-bold hover:text-red-300">Ruby Top Build</a>
+            </li>
+            <li>
+                <a href="<%= ruby_tutorial_path %>" class="text-white font-bold hover:text-red-300">Ruby Tutorial</a>
+            </li>
+            <li>
+                <button id="theme-toggle" class="bg-none border-none text-white text-lg">🌙 Dark/Light</button>
+            </li>
+        </ul>
+    </nav>
+
+    <%= yield %>
+    
+    <footer class="bg-red-500 text-white text-center p-4">
+        <div class="max-w-3xl mx-auto">
+            <p class="m-0">Made with ❤️ by Ruby & Roger</p>
+            <div class="flex justify-center flex-wrap mt-2">
+                <a href="#" class="mx-2 text-white hover:text-red-300">Privacy Policy</a>
+                <a href="#" class="mx-2 text-white hover:text-red-300">Terms of Service</a>
+                <a href="#" class="mx-2 text-white hover:text-red-300">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioFiles = [
+                "<%= asset_path('howish_bahasa_indo.ogg') %>",
+                "<%= asset_path('howish_english.ogg') %>",
+                "<%= asset_path('howish_jepang.ogg') %>"
+            ];
+
+            let hasPlayedAudio = false; // Flag untuk memastikan audio hanya diputar sekali
+
+            const playRandomAudio = () => {
+                if (hasPlayedAudio) return; // Jika audio sudah diputar, keluar dari fungsi
+
+                const randomAudio = audioFiles[Math.floor(Math.random() * audioFiles.length)];
+                const audio = new Audio(randomAudio);
+                audio.play().catch((error) => {
+                    console.error("Error playing audio:", error);
+                });
+
+                hasPlayedAudio = true; // Tandai audio sudah diputar
+            };
+
+            // Memutar audio sambutan setelah halaman selesai dimuat
+            window.addEventListener('load', playRandomAudio);
+
+            const toggleButton = document.getElementById('theme-toggle');
+            const body = document.body;
+            const navbar = document.getElementById('navbar');
+            const footer = document.getElementById('footer');
+
+            toggleButton.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                const links = document.querySelectorAll('a');
+                links.forEach(link => link.classList.toggle('dark-mode'));
+                toggleButton.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
